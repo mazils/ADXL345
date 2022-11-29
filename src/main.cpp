@@ -16,9 +16,11 @@ int main()
 
   while (1)
   {
-
+    Serial.println("X axis");
     Serial.println(read_x_axis());
-    _delay_ms(20);
+    // Serial.println("Y axis");
+    // Serial.println(read_y_axis());
+    _delay_ms(100);
   }
 
   return 0;
