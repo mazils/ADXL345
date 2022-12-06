@@ -1,8 +1,9 @@
 #include "adxl_345.h"
 #include "spi_comm.h"
+#include <math.h>
 #define SS PL0
 // https://www.best-microcontroller-projects.com/adxl345.html
-// TODO: set up sensasitivity options
+// TODO: set up sensasitivity options,callibration
 void innit_adxl()
 {
   DDRL |= _BV(SS);
@@ -123,19 +124,25 @@ uint8_t read_adxl_id()
 }
 // https://www.engineersgarage.com/adxl345-accelerometer-raspberry-pi-i2c/
 // sensitivity 2 G's Reading acceleration in SI units from ADXL345:
-//https://www.edaboard.com/threads/accelerometer-questions.250221/
+// https://www.edaboard.com/threads/accelerometer-questions.250221/
+/**
+ * Reading acceleration values from ADXL345
+ * Once the raw 10-bit/11-bit/12-bit/13-bit acceleration values are derived, the acceleration in the gravity unit can be calculated by multiplying the raw values to 4 mg i.e.,
+ *  by multiplying to 0.004. This way, we get the value of acceleration along X-, Y- and Z- axes in G. 
+ * These values can be multiplied by 9.8 to convert the acceleration in gravity unit to acceleration in m/s2 (SI units).
+ * */
 float read_x_axis()
 {
-  return (float)((read_x_axis_raw() *0.004) * 9.80665);
+  return (read_x_axis_raw() *0.004)*9.8;
 }
 // sensitivity 2 G's
 float read_y_axis()
 {
-  return (float)((read_y_axis_raw() *0.004)* 9.80665) ;
+  return (read_y_axis_raw() *0.004)*9.8;
 }
 // sensitivity  G's
 float read_z_axis()
 {
 
-  return (float)((read_z_axis_raw() *0.004)* 9.80665) ;
+  return ((read_z_axis_raw() *0.004)*9.8);
 }
