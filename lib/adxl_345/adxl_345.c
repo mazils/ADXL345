@@ -131,18 +131,26 @@ uint8_t read_adxl_id()
  *  by multiplying to 0.004. This way, we get the value of acceleration along X-, Y- and Z- axes in G. 
  * These values can be multiplied by 9.8 to convert the acceleration in gravity unit to acceleration in m/s2 (SI units).
  * */
-float read_x_axis()
+void read_x_axis(float* x_axis)
 {
-  return (read_x_axis_raw() *0.004)*9.8;
+  *x_axis = (read_x_axis_raw() *0.004)*9.8;
 }
 // sensitivity 2 G's
-float read_y_axis()
+void read_y_axis(float* y_axis)
 {
-  return (read_y_axis_raw() *0.004)*9.8;
+  *y_axis = (read_y_axis_raw() *0.004)*9.8;
 }
 // sensitivity  G's
-float read_z_axis()
+void read_z_axis(float* z_axis)
 {
 
-  return ((read_z_axis_raw() *0.004)*9.8);
+  *z_axis = ((read_z_axis_raw() *0.004)*9.8);
+}
+
+void read_x_y_z(struct adxl_345* axes)
+{
+  read_x_axis(&axes->x_axis);
+  read_y_axis(&axes->y_axis);
+  read_z_axis(&axes->z_axis);
+  
 }

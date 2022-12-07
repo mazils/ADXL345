@@ -1,10 +1,19 @@
 #include <avr/io.h>
+#include <stdio.h>
+struct adxl_345
+{
+    float x_axis;
+    float y_axis;
+    float z_axis;
+};
+
 void innit_adxl();
-// int16_t read_x_axis_raw();
-// int16_t read_y_axis_raw();
-// int16_t read_z_axis_raw();
+void enable_measure_mode();
+void read_x_axis(float*);
+void read_y_axis(float*);
+void read_z_axis(float*);
 // for testing purposes response should be 229
-float read_x_axis();
-float read_y_axis();
-float read_z_axis();
 uint8_t read_adxl_id();
+void read_x_y_z(struct adxl_345*);
+
+
