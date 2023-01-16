@@ -36,7 +36,7 @@ int16_t read_x_axis_raw()
 
   PORTL &= ~(_BV(SS));
   spi_write_byte(x_axis_byte0);
-  int8_t x_axis_0_result = spi_read_byte();
+  uint8_t x_axis_0_result = spi_read_byte();
   PORTL |= _BV(SS);
 
   //  //tryin to read x axis1
@@ -47,10 +47,10 @@ int16_t read_x_axis_raw()
   // send address
   spi_write_byte(x_axis_byte_1);
   // read data from that address
-  int8_t x_axis1_result = spi_read_byte();
+  uint8_t x_axis1_result = spi_read_byte();
   PORTL |= _BV(SS);
   // combine x1 and x0
-  int16_t x_axis_raw = (int16_t)x_axis1_result << 8 | x_axis_0_result;
+  int16_t x_axis_raw = ((int16_t)x_axis1_result << 8) | (int16_t)x_axis_0_result;
   return x_axis_raw;
 }
 int16_t read_y_axis_raw()
@@ -64,7 +64,7 @@ int16_t read_y_axis_raw()
   // send address
   spi_write_byte(y_axis_byte_0);
   // read from that address
-  int8_t y_axis_0_result = spi_read_byte();
+  uint8_t y_axis_0_result = spi_read_byte();
   PORTL |= _BV(SS);
 
   //  //tryin to read y axis1
@@ -75,10 +75,10 @@ int16_t read_y_axis_raw()
   // send address
   spi_write_byte(y_axis_byte_1);
   // read data from that address
-  int8_t y_axis1_result = spi_read_byte();
+  uint8_t y_axis1_result = spi_read_byte();
   PORTL |= _BV(SS);
   // combine x1 and x0
-  int16_t y_axis_raw = (int16_t)y_axis1_result << 8 | y_axis_0_result;
+  int16_t y_axis_raw = ((int16_t)y_axis1_result << 8) | (int16_t)y_axis_0_result;
   return y_axis_raw;
 }
 int16_t read_z_axis_raw()
@@ -92,7 +92,7 @@ int16_t read_z_axis_raw()
   // send address
   spi_write_byte(z_axis_byte_0);
   // read from that address
-  int8_t z_axis_0_result = spi_read_byte();
+  uint8_t z_axis_0_result = spi_read_byte();
   PORTL |= _BV(SS);
 
   //  //tryin to read y axis1
@@ -103,10 +103,10 @@ int16_t read_z_axis_raw()
   // send address
   spi_write_byte(z_axis_1);
   // read data from that address
-  int8_t z_axis_1_result = spi_read_byte();
+  uint8_t z_axis_1_result = spi_read_byte();
   PORTL |= _BV(SS);
   // combine x1 and x0
-  int16_t z_axis_raw = (int16_t)z_axis_1_result << 8 | z_axis_0_result;
+  int16_t z_axis_raw = ((int16_t)z_axis_1_result << 8) | (int16_t)z_axis_0_result;
   return z_axis_raw;
 }
 
@@ -122,6 +122,13 @@ uint8_t read_adxl_id()
   PORTL |= _BV(SS);
   return adxl_id;
 }
+
+void callibrate_axes()
+{
+
+}
+
+
 // https://www.engineersgarage.com/adxl345-accelerometer-raspberry-pi-i2c/
 // sensitivity 2 G's Reading acceleration in SI units from ADXL345:
 // https://www.edaboard.com/threads/accelerometer-questions.250221/
@@ -133,18 +140,17 @@ uint8_t read_adxl_id()
  * */
 void read_x_axis(float* x_axis)
 {
-  *x_axis = (read_x_axis_raw() *0.004)*9.8;
+  *x_axis = ((float)read_x_axis_raw()) /255;
 }
 // sensitivity 2 G's
 void read_y_axis(float* y_axis)
 {
-  *y_axis = (read_y_axis_raw() *0.004)*9.8;
+  *y_axis = ((float)read_y_axis_raw())/255;
 }
 // sensitivity  G's
 void read_z_axis(float* z_axis)
 {
-
-  *z_axis = ((read_z_axis_raw() *0.004)*9.8);
+  *z_axis = ((float)read_z_axis_raw())/255;
 }
 
 void read_x_y_z(struct adxl_345* axes)

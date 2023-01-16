@@ -1,0 +1,5 @@
+connection between atmega and adxl345
+49 to CS
+51 to SDA
+50 SDO
+52 to SCL

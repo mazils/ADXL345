@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 
 // MOSI = PB3
-// MISO = PB4 tas gal input
+// MISO = PB4 
 // SCK = PB5
 #define MOSI PB2
 #define MISO PB3
@@ -10,7 +10,7 @@
 
 void init_spi(uint8_t mode, uint8_t LSBFirst)
 {
-    DDRB |= _BV(SCK) | _BV(MOSI) | _BV(DDB0); // wtf
+    DDRB |= _BV(SCK) | _BV(MOSI) | _BV(DDB0); 
     PORTB |= _BV(SCK) | _BV(MOSI);
     DDRB &= ~_BV(MISO);
 
